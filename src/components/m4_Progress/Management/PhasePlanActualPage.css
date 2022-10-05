@@ -20,7 +20,7 @@
 .m46-table-hd, 
 .m46-table-frame,
 .m46-table-bd {
-  width: 1320px;
+  width: 1370px;
 }
 .m46-table-hd, 
 .m46-table-frame {
@@ -61,7 +61,7 @@
   width: 80px;
 }
 .m46-efficiency-hd {
-  width: 50px;
+  width: 100px;
 }
 .m46-name-td {
   width: 120px;
@@ -82,7 +82,7 @@
   padding-right: 5px;
 }
 .m46-efficiency-td {
-  width: 50px;
+  width: 100px;
   text-align: right;
   padding-right: 5px;
 }

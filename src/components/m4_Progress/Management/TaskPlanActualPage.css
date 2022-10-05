@@ -41,7 +41,7 @@
 .m47-table-hd, 
 .m47-table-frame,
 .m47-table-bd {
-  width: 1130px;
+  width: 1180px;
 }
 .m47-table-hd, 
 .m47-table-frame {
@@ -79,7 +79,7 @@
   width: 80px;
 }
 .m47-efficiency-hd {
-  width: 50px;
+  width: 100px;
 }
 
 .m47-name-td {
@@ -100,7 +100,7 @@
   padding-right: 5px;
 }
 .m47-efficiency-td {
-  width: 50px;
+  width: 100px;
   text-align: right;
   padding-right: 5px;
 }

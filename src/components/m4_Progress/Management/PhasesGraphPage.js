@@ -35,9 +35,21 @@ const PhasesGraphPage = (props) => {
   const [labels, setLabels] = useState([]);
   const [planData, setPlanData] = useState([]);
   const [actualData, setActualData] = useState([]);
+  const [actualLabel, setActualLabel] = useState("実績");
+  const [plannedLabel, setPlannedLabel] = useState("計画");
+  const [leftText, setLeftText] = useState("");
 
   // 初期処理
   useEffect(() => {
+    if (kbn==="cost") {
+      setLeftText("円");
+      setPlannedLabel("計画作業費");
+      setActualLabel("実績作業費");
+    } else {
+      setLeftText("人月");
+      setPlannedLabel("計画工数");
+      setActualLabel("実績工数");
+    }
     if (!isEmpty(progId)) {
       handleGetPhases();
     }
@@ -85,7 +97,7 @@ const PhasesGraphPage = (props) => {
         backgroundColor: 'rgb(0, 255, 0, 0.8)',
         borderColor: 'white',
         borderWidth: 2,
-        label: '計画工数',
+        label: plannedLabel,
       },
       {
         type: "bar",
@@ -94,7 +106,7 @@ const PhasesGraphPage = (props) => {
         backgroundColor: 'rgb(255, 30, 144, 0.4)',
         borderColor: 'white',
         borderWidth: 2,
-        label: '実績工数',
+        label: actualLabel,
       },
     ],
   };
@@ -107,7 +119,7 @@ const PhasesGraphPage = (props) => {
         position: "left",
         title: {
           display: true,
-          text: '人月',
+          text: leftText,
         },
         ticks: {
           beginAtZero: true,
