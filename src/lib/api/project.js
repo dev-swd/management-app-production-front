@@ -5,6 +5,11 @@ export const getPrjsToDo = (empId) => {
   return client.get(`/projects/${empId}/index_todo`);  
 };
 
+// 一覧（ToDoリスト／内部監査）
+export const getPrjsToDoAudit = () => {
+  return client.get(`/projects/index_audit_todo`);
+}
+
 // PL一覧（条件：not_project）
 export const getPls = (not_project) => {
   return client.get(`/projects/index_pl?not_project=${not_project}`);

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../App";
 import { isEmpty } from '../../lib/common/isEmpty';
 import { formatDateZero } from '../../lib/common/dateCom';
-import { getPrjsToDo } from '../../lib/api/project';
+import { getPrjsToDo, getPrjsToDoAudit } from '../../lib/api/project';
 import { getTasksToDo } from "../../lib/api/task";
 import PwdEditPage from './PwdEditPage';
 import ProfileEditPage from './ProfileEditPage';
@@ -17,11 +17,12 @@ import ErrorIcon from '@mui/icons-material/Error';
 const today = new Date();
 
 const HomePage = () => {
-  const { isSignedIn, empInfo, currentUser } = useContext(AuthContext);
+  const { isSignedIn, empInfo, currentUser, authInfo } = useContext(AuthContext);
   const [passwordFlg, setPasswordFlg] = useState(false);
   const [profileFlg, setProfileFlg] = useState(false);
   const [prjToDos, setPrjToDos] = useState([]);
   const [taskToDos, setTaskToDos] = useState([]);
+  const [auditToDos, setAuditToDos] = useState([]);
 
   // 初期処理
   useEffect(() => {
@@ -30,6 +31,10 @@ const HomePage = () => {
       handleGetProjects();
       // タスクのToDo取得
       handleGetTasks();
+      // 内部監査権限の場合、内部監査ToDo取得
+      if (authInfo.prjAuditAuth) {
+        handleGetProjectsAudit();
+      }
     }
   }, [isSignedIn]);
 
@@ -66,6 +71,24 @@ const HomePage = () => {
       return tmpTodo;
     });
     setTaskToDos(tmpTodos);
+  }
+
+  // （内部監査）プロジェクト計画書・完了報告書の監査ToDo取得
+  const handleGetProjectsAudit = async () => {
+    const res = await getPrjsToDoAudit();
+    const tmpTodos = res.data.prjs.map(p => {
+      const tmpTodo = {};
+      tmpTodo.id = p.id
+      tmpTodo.status = p.status;
+      tmpTodo.approval_date = p.approval_date;
+      tmpTodo.number = p.number;
+      tmpTodo.name = p.name;
+      tmpTodo.development_period_fr = p.development_period_fr;
+      tmpTodo.development_period_to = p.development_period_to;
+      tmpTodo.scheduled_to_be_completed = p.scheduled_to_be_completed;
+      return tmpTodo;
+    });
+    setAuditToDos(tmpTodos);
   }
 
   // 所属名編集
@@ -162,6 +185,16 @@ const HomePage = () => {
               prjToDos.map((p,i) =>
                 <div key={"prj-" + i}>
                   <PrjToDo prj={p} />
+                </div>
+              )
+            ): (
+              <></>
+            )}
+            {/* 内部監査ToDoリスト編集 */}
+            { auditToDos ? (
+              auditToDos.map((a,i) =>
+                <div key={"audit-" + i}>
+                  <AuditToDo audit={a} />
                 </div>
               )
             ): (
@@ -326,6 +359,64 @@ const PrjToDo = (props) => {
         <div>{formatDateZero(prj.development_period_fr, "YYYY年MM月DD日") + " 〜 " + formatDateZero(prj.development_period_fr, "YYYY年MM月DD日")}</div>
         <div>(完了予定日)</div>
         <div>{formatDateZero(prj.scheduled_to_be_completed, "YYYY年MM月DD日")}</div>
+      </div>
+    </Card>
+  );
+}
+
+// 内部監査ToDo編集
+const AuditToDo = (props) => {
+  const { audit } = props;
+  const navigate = useNavigate();
+
+  const Card = ({children}) => {
+    switch (audit.status) {
+      case "計画書監査中":
+        return (
+          <div className="m00-card-warn">
+            <div className="m00-warn">
+              <WarningIcon sx={{ fontSize:20, color: orange[500] }} />
+              <div>{"プロジェクト計画書が監査待ちです"}</div>
+            </div>
+            {children}
+          </div>
+      );
+      case "完了報告書監査中":
+        return (
+          <div className="m00-card-warn">
+            <div className="m00-warn">
+              <WarningIcon sx={{ fontSize:20, color: orange[500] }} />
+              <div>{"プロジェクト計画書が監査待ちです"}</div>
+            </div>
+            {children}
+          </div>
+        );
+    default:
+      return (<></>);
+    }
+  }
+
+  return (
+    <Card>
+      <div className="m00-prj-area">
+        <div>(プロジェクト)</div>
+        <div>
+          <button 
+            className="link-style-btn" 
+            type="button" 
+            onClick={() => navigate(`/prj/top`,{state: {id: audit.id, status: audit.status}})}
+            >
+            {audit.name}
+          </button>
+        </div>
+        <div>(承認日)</div>
+        <div>{formatDateZero(audit.approval_date, "YYYY年MM月DD日")}</div>
+        <div>(状態)</div>
+        <div>{audit.status}</div>
+        <div>(開発期間)</div>
+        <div>{formatDateZero(audit.development_period_fr, "YYYY年MM月DD日") + " 〜 " + formatDateZero(audit.development_period_fr, "YYYY年MM月DD日")}</div>
+        <div>(完了予定日)</div>
+        <div>{formatDateZero(audit.scheduled_to_be_completed, "YYYY年MM月DD日")}</div>
       </div>
     </Card>
   );
