@@ -251,7 +251,7 @@ const TaskNewPage = (props) => {
     if (!checkInput()) {
       setConfirm({
         ...confirm,
-        msg: "プロジェクト外タスクを登録します。よろしいですか？",
+        msg: "その他タスクを登録します。よろしいですか？",
         tag: "",
       });  
     }
@@ -299,13 +299,13 @@ const TaskNewPage = (props) => {
                                           tasks: data.tasks,
                                           mems: data.mems});
       if (res.data.status === 500) {
-        setMsgs([{message: "プロジェクト外タスク登録エラー(500)",
+        setMsgs([{message: "その他タスク登録エラー(500)",
                 severity: "error",}]);
       } else {
         handleClose();
       }
     } catch (e) {
-      setMsgs([{message: "プロジェクト外タスク登録エラー",
+      setMsgs([{message: "その他タスク登録エラー",
               severity: "error",}]);
     }
   }
@@ -342,7 +342,7 @@ const TaskNewPage = (props) => {
         <div className="overlay">
           <div className="m51-container">
             <div className="m51-header-area">
-              <div className="m51-header-title">プロジェクト外タスク新規登録</div>
+              <div className="m51-header-title">その他タスク新規登録</div>
               <IconButton color="primary" aria-label="Close" size="large" onClick={(e) => handleClose()}>
                 <CloseIcon fontSize="inherit" />
               </IconButton>

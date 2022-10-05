@@ -67,7 +67,7 @@ const Header = () => {
         {isSignedIn &&  <Button component={Link} to="/daily/select" sx={{textTransform: 'none'}}>日報承認</Button>}
         {isSignedIn &&  <Button component={Link} to="/progress/user" sx={{textTransform: 'none'}}>進捗入力</Button>}
         {isSignedIn &&  <Button component={Link} to="/progress/management" sx={{textTransform: 'none'}}>進捗管理</Button>}
-        {isSignedIn &&  <Button component={Link} to="/noproject" sx={{textTransform: 'none'}}>プロジェクト外タスク</Button>}
+        {isSignedIn &&  <Button component={Link} to="/noproject" sx={{textTransform: 'none'}}>その他タスク</Button>}
         <Button component={Link} to="/system/admin/mente" sx={{textTransform: 'none'}}>導入</Button>
       </div>
       <div className="m00-right-item">

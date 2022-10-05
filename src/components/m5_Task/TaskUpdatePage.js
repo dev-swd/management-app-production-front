@@ -116,7 +116,7 @@ const TaskUpdatePage = (props) => {
         mems: tmpMems,
       });
     } catch (e) {
-      setMsgs([{message: "プロジェクト外タスク取得エラー",
+      setMsgs([{message: "その他タスク取得エラー",
       severity: "error",}]);
     }
   }
@@ -304,7 +304,7 @@ const TaskUpdatePage = (props) => {
     if (!checkInput()) {
       setConfirm({
         ...confirm,
-        msg: "プロジェクト外タスクを登録します。よろしいですか？",
+        msg: "その他タスクを登録します。よろしいですか？",
         tag: "",
       });  
     }
@@ -350,13 +350,13 @@ const TaskUpdatePage = (props) => {
                                             tasks: data.tasks,
                                             mems: data.mems});
       if (res.data.status === 500) {
-        setMsgs([{message: "プロジェクト外タスク更新エラー(500)",
+        setMsgs([{message: "その他タスク更新エラー(500)",
                 severity: "error",}]);
       } else {
         handleClose();
       }
     } catch (e) {
-      setMsgs([{message: "プロジェクト外タスク更新エラー",
+      setMsgs([{message: "その他タスク更新エラー",
               severity: "error",}]);
     }
   }
@@ -393,7 +393,7 @@ const TaskUpdatePage = (props) => {
         <div className="overlay">
           <div className="m52-container">
             <div className="m52-header-area">
-              <div className="m52-header-title">プロジェクト外タスク変更</div>
+              <div className="m52-header-title">その他タスク変更</div>
               <IconButton color="primary" aria-label="Close" size="large" onClick={(e) => handleClose()}>
                 <CloseIcon fontSize="inherit" />
               </IconButton>
