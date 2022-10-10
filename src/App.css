@@ -70,5 +70,5 @@ button.link-style-btn:hover{
 /* App.js固有 */
 .app-main {
   height: calc(100vh - 42px);
-  max-width: 1440px;
+  width: 100%;
 }
